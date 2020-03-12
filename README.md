@@ -4,11 +4,28 @@
 
 ---
 
-#### 1.什么是Zookeeper?
+- **文章目录**
+
+* [1\.什么是Zookeeper?](#1%E4%BB%80%E4%B9%88%E6%98%AFzookeeper)
+* [2\. 搭建Zookeeper](#2-%E6%90%AD%E5%BB%BAzookeeper)
+* [3\. 集群搭建Zookeeper](#3-%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BAzookeeper)
+  * [3\.1 集群服务器所需配置](#31-%E9%9B%86%E7%BE%A4%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%89%80%E9%9C%80%E9%85%8D%E7%BD%AE)
+  * [3\.2 集群数量为什么至少是三台，并且最好为奇数？](#32-%E9%9B%86%E7%BE%A4%E6%95%B0%E9%87%8F%E4%B8%BA%E4%BB%80%E4%B9%88%E8%87%B3%E5%B0%91%E6%98%AF%E4%B8%89%E5%8F%B0%E5%B9%B6%E4%B8%94%E6%9C%80%E5%A5%BD%E4%B8%BA%E5%A5%87%E6%95%B0)
+  * [3\.3 集群配置文件](#33-%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6)
+    * [3\.3\.1 创建myid文件](#331-%E5%88%9B%E5%BB%BAmyid%E6%96%87%E4%BB%B6)
+    * [3\.3\.2 编辑配置文件zoo\.cfg](#332-%E7%BC%96%E8%BE%91%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6zoocfg)
+    * [3\.2\.3 配置系统环境变量](#323-%E9%85%8D%E7%BD%AE%E7%B3%BB%E7%BB%9F%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F)
+    * [3\.2\.4 启动zookeeper集群服务](#324-%E5%90%AF%E5%8A%A8zookeeper%E9%9B%86%E7%BE%A4%E6%9C%8D%E5%8A%A1)
+  * [3\.4 Zookeeper基础知识](#34-zookeeper%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86)
+    * [3\.4\.1 Zookeeper存储结构](#341-zookeeper%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84)
+    * [3\.4\.2 Zookeeper分布式协调工具应用场景](#342-zookeeper%E5%88%86%E5%B8%83%E5%BC%8F%E5%8D%8F%E8%B0%83%E5%B7%A5%E5%85%B7%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF)
+    * [3\.4\.3 Zookeeper节点类型](#343-zookeeper%E8%8A%82%E7%82%B9%E7%B1%BB%E5%9E%8B)
+
+# 1.什么是Zookeeper?
 
 > [Zookeeper](https://github.com/apache/zookeeper) 是一个用于维护配置信息、命名、提供分布式同步和提供组服务的集中服务。 所有这些类型的服务都以某种形式被分布式应用程序所使用。 每次实现它们时，都有大量的工作需要去修复那些不可避免的 bug 和竞争条件。 由于实现这些类型的服务很困难，应用程序最初通常会对它们进行缩减，这使得它们在出现变更时变得脆弱，难以管理。 即使正确地执行，在部署应用程序时，这些服务的不同实现也会导致管理复杂性。Zookeeper 旨在将这些不同服务的本质提炼为一个非常简单的接口，以集中化的协调服务。 服务本身是分布式的，并且高度可靠。 服务将实现共识、组管理和存在协议，这样应用程序就不需要自己实现它们。 这些应用程序的特定用途将包括动物园管理员的特定组件和应用程序特定约定的混合。 Zookeeper Recipes 展示了如何使用这个简单的服务来构建更强大的抽象。
 
-#### 2. 搭建Zookeeper
+# 2. 搭建Zookeeper
 
 > 根据自己选择，下载相应的Zookeeper版本 [下载地址](http://zookeeper.apache.org/releases.html)
 
@@ -54,9 +71,9 @@ $ ./zkServer.sh start
 
 ![](https://gitee.com/FocusProgram/PicGo/raw/master/20200308214002.png)
 
-#### 2. 集群搭建Zookeeper
+# 3. 集群搭建Zookeeper
 
-##### 2.1 集群服务器所需配置
+## 3.1 集群服务器所需配置
 
 | hostname   | ipaddress         | mask             | gateway         | port |
 |------------|-------------------|------------------|-----------------|------|
@@ -64,7 +81,7 @@ $ ./zkServer.sh start
 | slave\-one | 192\.168\.80\.131 | 255\.255\.255\.0 | 192\.168\.80\.2 | 2181 |
 | slave\-two | 192\.168\.80\.132 | 255\.255\.255\.0 | 192\.168\.80\.2 | 2181 |
 
-##### 2.2 集群数量为什么至少是三台，并且最好为奇数？
+## 3.2 集群数量为什么至少是三台，并且最好为奇数？
 
 > zookeeper 集群通常是用来对用户的分布式应用程序提供协调服务的，为了保证数据的一致性，对 zookeeper 集群进行了这样三种角色划分：leader、follower、observer分别对应着总统、议员和观察者。
 
@@ -109,9 +126,9 @@ $ ./zkServer.sh start
 >　　以上分析，我们从容错率以及防止脑裂两方面说明了3台服务器是搭建集群的最少数目，4台发生脑裂时会造成没有leader节点的错误。
 
 
-##### 2.3 集群配置文件
+## 3.3 集群配置文件
 
-###### 2.3.1 创建myid文件
+### 3.3.1 创建myid文件
 
 ```linux
 $ echo 0 > /data/apache-zookeeper-3.6.0-bin/data/myid #192.168.80.130
@@ -121,7 +138,7 @@ $ echo 1 > /data/apache-zookeeper-3.6.0-bin/data/myid #192.168.80.131
 $ echo 2 > /data/apache-zookeeper-3.6.0-bin/data/myid #192.168.80.132
 ```
 
-###### 2.3.2 编辑配置文件zoo.cfg
+### 3.3.2 编辑配置文件zoo.cfg
 
 ```linux
 tickTime=2000
@@ -151,7 +168,7 @@ server.2=192.168.80.132:2888:3888
 >
 >　　　　D：Zookeeper服务器之间的通信端口。
 
-##### 2.4 配置系统环境变量
+### 3.2.3 配置系统环境变量
 
 > 为了能够在任意目录启动zookeeper集群，我们需要配置环境变量
 
@@ -165,7 +182,7 @@ export PATH=$PATH:$ZK_HOME/bin
 $ source /etc/profile
 ```
 
-##### 2.5 启动zookeeper集群服务
+### 3.2.4 启动zookeeper集群服务
 
 ```
 $ zkServer.sh start         #启动服务
@@ -187,13 +204,13 @@ $ zkServer.sh status        #查看服务状态
 
 ![](https://gitee.com/FocusProgram/PicGo/raw/master/20200309103433.png)
 
-##### 2.6 Zookeeper基础知识
+## 3.4 Zookeeper基础知识
 
-###### 2.6.1 Zookeeper存储结构
+### 3.4.1 Zookeeper存储结构
 
 ![](https://gitee.com/FocusProgram/PicGo/raw/master/20200309123305.png)
 
-###### 2.6.2 Zookeeper分布式协调工具应用场景
+### 3.4.2 Zookeeper分布式协调工具应用场景
 
 * **命名服务(注册中心)Dubbo注册中心(动态实现负载均衡)**
   * 参考实现 zookeeper-loadbalance([github源码地址](https://github.com/FocusProgram/springcloud-zookeeper/tree/master/zookeeper-loadbalance)) 
@@ -238,7 +255,7 @@ $ zkServer.sh status        #查看服务状态
 
 * **Zookeeper实现本地负载均衡**
 
-###### 2.6.3 Zookeeper节点类型
+### 3.4.3 Zookeeper节点类型
 
 * **持久节点**
     *  创建的节点永久持久化到硬盘上
