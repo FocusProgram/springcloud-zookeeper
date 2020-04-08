@@ -11,7 +11,7 @@ import java.util.concurrent.CountDownLatch;
  */
 public abstract class ZookeeperAbstractLock implements ExtLock {
     // 集群连接地址
-    protected String CONNECTION = "192.168.80.130:2181";
+    protected String CONNECTION = "114.55.34.44:2181";
 
     // zk客户端连接
     protected ZkClient zkClient = new ZkClient(CONNECTION);

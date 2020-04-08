@@ -1,7 +1,6 @@
 package com.example.zookeeperlock;
 
 import org.I0Itec.zkclient.IZkDataListener;
-
 import java.util.concurrent.CountDownLatch;
 
 /**
