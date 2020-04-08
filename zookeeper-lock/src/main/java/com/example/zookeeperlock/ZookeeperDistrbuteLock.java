@@ -1,6 +1,7 @@
 package com.example.zookeeperlock;
 
 import org.I0Itec.zkclient.IZkDataListener;
+
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -31,6 +32,7 @@ public class ZookeeperDistrbuteLock extends ZookeeperAbstractLock {
             // 节点被删除时通知
             @Override
             public void handleDataDeleted(String path) throws Exception {
+                System.out.println(path + "节点删除通知");
                 if (countDownLatch != null) {
                     countDownLatch.countDown();
                 }
