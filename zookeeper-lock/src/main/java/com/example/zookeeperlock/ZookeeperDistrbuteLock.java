@@ -31,6 +31,7 @@ public class ZookeeperDistrbuteLock extends ZookeeperAbstractLock {
             // 节点被删除时通知
             @Override
             public void handleDataDeleted(String path) throws Exception {
+                System.out.println(path+"节点被删除时通知");
                 if (countDownLatch != null) {
                     countDownLatch.countDown();
                 }

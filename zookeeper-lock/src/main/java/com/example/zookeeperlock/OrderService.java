@@ -1,5 +1,8 @@
 package com.example.zookeeperlock;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 /**
  * @Author Mr.Kong
  * @Description
@@ -32,9 +35,15 @@ public class OrderService implements Runnable {
         System.out.println("多线程生成number开始：");
 //        只能创建一个Zookeeper连接
 //        OrderService orderService = new OrderService();
-        for (int i = 0; i < 100; i++) {
-            new Thread(new OrderService()).start();
+//        for (int i = 0; i < 10; i++) {
+//            new Thread(new OrderService()).start();
+//        }
+
+        ExecutorService executorService = Executors.newFixedThreadPool(100);
+        for (int i = 0; i < 10; i++) {
+            executorService.execute(new OrderService());
         }
+
     }
 
 }
